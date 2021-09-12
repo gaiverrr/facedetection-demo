@@ -1,6 +1,7 @@
 import type {NextPage} from 'next'
 import {useEffect, useRef, useState} from "react";
 import {useFaceApi} from "react-use-faceapi";
+import {useUserMedia} from "./use-user-media";
 
 const myFaceApiConfig = {
     input: 'inputVideo',
@@ -11,16 +12,48 @@ const constraints = {
     audio: false,
     video: {
         facingMode: 'user',
-        width: { ideal: 1280 },
-        height: { ideal: 720 }
+        width: { ideal: 4096 },
+        height: { ideal: 2160 }
     }
 }
+
+export function setConstraints() {
+    return {
+        // width: { ideal: 2048 },
+        // height: { 3024: 1080 },
+        // width: { min: 640, ideal: 4000, max: 4000 },
+        // height: { min: 400, ideal: 2500, max: 2500 },
+        // width: ,
+        // width: { min: 640, ideal: 4940, max: 4940 },
+        // height: { min: 400, ideal: 3000, max: 3000, },
+        width: { min: 640, ideal: 2964, max: 2964 },
+        height: { min: 400, ideal: 1800, max: 1800, },
+        frameRate: { max: 10 }
+        // 3024 – 4032
+    }
+}
+
+// const constraints = {
+//     audio: false,
+//     video: {
+//         ...setConstraints(),
+//         frameRate: { max: 10 },
+//         facingMode: 'user'
+//     }
+// }
 const Home: NextPage = () => {
+
     const videoRef: any = useRef(null);
+
+
+    const mediaStream = useUserMedia(constraints);
     const faces = useFaceApi(myFaceApiConfig);
-    useEffect(() => {
-        getVideo();
-    }, [videoRef]);
+    if (mediaStream && videoRef.current && !videoRef.current.srcObject) {
+        videoRef.current.srcObject = mediaStream;
+    }
+    // useEffect(() => {
+    //     getVideo();
+    // }, [videoRef]);
 
     const getVideo = () => {
         navigator.mediaDevices
@@ -41,7 +74,7 @@ const Home: NextPage = () => {
     return (
         <div>
             <div style={{"position": "relative"}} className="margin">
-                <video ref={videoRef} id="inputVideo" style={{width: '100%', height: '100%', maxWidth: '600px'}}/>
+                <video ref={videoRef} autoPlay={true} id="inputVideo" playsInline style={{width: '100%', height: '100%', maxWidth: '600px'}}/>
                 <canvas id="overlay"/>
             </div>
 
