@@ -1,7 +1,7 @@
 import type {NextPage} from 'next'
 import {useEffect, useRef, useState} from "react";
 import {useFaceApi} from "react-use-faceapi";
-import {useUserMedia} from "./use-user-media";
+import useUserMedia from "./use-user-media";
 
 const myFaceApiConfig = {
     input: 'inputVideo',
