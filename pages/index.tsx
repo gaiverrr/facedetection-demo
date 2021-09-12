@@ -6,6 +6,15 @@ const myFaceApiConfig = {
     input: 'inputVideo',
     refreshRate: 250
 }
+
+const constraints = {
+    audio: false,
+    video: {
+        facingMode: 'user',
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+    }
+}
 const Home: NextPage = () => {
     const videoRef: any = useRef(null);
     const faces = useFaceApi(myFaceApiConfig);
@@ -15,15 +24,17 @@ const Home: NextPage = () => {
 
     const getVideo = () => {
         navigator.mediaDevices
-            .getUserMedia({video: {width: 300}})
+            .getUserMedia(constraints)
             .then(stream => {
                 let video = videoRef.current;
                 // @ts-ignore
                 video.srcObject = stream;
                 // @ts-ignore
-                video.play();
+                // video.play();
+                video.onloadedmetadata = e => video.play();
             })
             .catch(err => {
+                alert(JSON.stringify(err))
                 console.error("error:", err);
             });
     };
