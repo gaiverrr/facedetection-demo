@@ -20,7 +20,7 @@ const Home: NextPage = () => {
                         height="100%"
                         sandbox="allow-scripts"
                         // src="https://ogsale-ui-og608e2pa-snark.vercel.app/app/crystal/32/ar/4"
-                        src="https://og-ar-crystal-hbtdptxpu-snark.vercel.app/crystal/32/ar"
+                        src="https://og-embed-nmuvj8hbx-snark.vercel.app/app/crystal/32/embed"
                         width="100%"
                         style={{minHeight: '500px'}}/>
 
